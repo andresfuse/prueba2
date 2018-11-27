@@ -67,7 +67,7 @@ d3.csv("flare.csv", type, function(error, data) {
       .polygons(data)).enter().append("g");
 
   cell.append("circle")
-      .attr("r", 3)
+      .attr("r", 1.5)
       .attr("cx", function(d) { return d.data.x; })
       .attr("cy", function(d) { return d.data.y; });
 
