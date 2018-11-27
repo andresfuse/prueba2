@@ -39,14 +39,15 @@ var x = d3.scaleLog()
 
 var g = svg.append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  
+  
+d3.csv("base_l1ux.csv", type, function(error, data) {
+if (error) throw error;
 
-d3.csv("flare.csv", type, function(error, data) {
-  if (error) throw error;
-
-  x.domain(d3.extent(data, function(d) { return d.value; }));
+  x.domain(d3.extent(data, function(d) { return d.area; }));
 
   var simulation = d3.forceSimulation(data)
-      .force("x", d3.forceX(function(d) { return x(d.value); }).strength(1))
+      .force("x", d3.forceX(function(d) { return x(d.area); }).strength(1))
       .force("y", d3.forceY(height / 2))
       .force("collide", d3.forceCollide(4))
       .stop();
@@ -67,7 +68,7 @@ d3.csv("flare.csv", type, function(error, data) {
       .polygons(data)).enter().append("g");
 
   cell.append("circle")
-      .attr("r", 1.5)
+      .attr("r", 4)
       .attr("cx", function(d) { return d.data.x; })
       .attr("cy", function(d) { return d.data.y; });
 
@@ -75,12 +76,12 @@ d3.csv("flare.csv", type, function(error, data) {
       .attr("d", function(d) { return "M" + d.join("L") + "Z"; });
 
   cell.append("title")
-      .text(function(d) { return d.data.id + "\n" + formatValue(d.data.value); });
+      .text(function(d) { return d.data.L1Name + "\n" + formatValue(d.data.area); });
 });
 
 function type(d) {
-  if (!d.value) return;
-  d.value = +d.value;
+  if (!d.area) return;
+  d.area = +d.area;
   return d;
 }
 
